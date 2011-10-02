@@ -21,6 +21,12 @@ class AbilityScores
 	has_one :Values, AbilityScoreValues
 end
 
+class Defenses
+	include HappyMapper
+	tag :SimpleAdjustableNumber
+	element :Name, String
+	attribute :FinalValue, Integer, :deep => true
+end
 
 class Monster
 	include HappyMapper
@@ -31,7 +37,7 @@ class Monster
 	element :Name, String
 	element :IsLeader, Boolean
 	has_one :AbilityScores, AbilityScores
-	
+	has_many :Defenses, Defenses, :deep => true
 
 end
 
@@ -47,4 +53,7 @@ print monster.Name + "\n"
 
 monster.AbilityScores.Values.AbilityScoreNumber.each do |score|
 	print score.Name + ":" + score.FinalValue.to_s + "\n"
+end
+monster.Defenses.each do |defense| 
+	print defense.Name + ":" + defense.FinalValue.to_s + "\n"
 end
