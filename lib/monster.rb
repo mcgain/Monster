@@ -1,34 +1,40 @@
 require "happymapper"
 
-	def standard_name_value
-		include HappyMapper
-		element :Name, String, :deep => true
-		attribute :FinalValue, Integer, :deep => true
-	end
+	# def standard_name_value
+	# 	include HappyMapper
+	# 	element :Name, String, :deep => true
+	# 	attribute :FinalValue, Integer, :deep => true
+	# end
 
 	class StandardNameValue
+		def self.add_code
+			include HappyMapper
+			element :Name, String, :deep => true
+			attribute :FinalValue, Integer, :deep => true
+		end
+
+		def self.inherited(child) 
+			child.send(:add_code)
+		end
+
 		def to_s
 			"#{self.Name}: #{self.FinalValue}\n"
 		end
 	end
 
 	class AbilityScores < StandardNameValue		
-		standard_name_value
 		tag :AbilityScoreNumber
 	end
 
 	class Defenses < StandardNameValue	
-		standard_name_value
 		tag :SimpleAdjustableNumber
 	end
  
 	class AttackBonuses < StandardNameValue	
-		standard_name_value
 		tag :CalculatedNumber
 	end
 		
 	class Skills < StandardNameValue	
-		standard_name_value
 		tag :SkillNumber
 	end
 
